@@ -3,8 +3,6 @@ package com.lbi.util;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 public enum HttpclientSingleton {
 
@@ -14,6 +12,7 @@ public enum HttpclientSingleton {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(300);
         cm.setDefaultMaxPerRoute(300);
+
 
         /* keep this blcok for further tuning.
         RequestConfig requestConfig = RequestConfig
@@ -27,15 +26,12 @@ public enum HttpclientSingleton {
                 .build();
          */
         CloseableHttpClient httpClient = HttpClients.createMinimal(cm);
-
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        factory.setReadTimeout(1000);
-        this.requestFactory = factory;
+        this.httpClient=httpClient;
     }
 
-    private final ClientHttpRequestFactory requestFactory;
+    private final CloseableHttpClient httpClient;
 
-    public ClientHttpRequestFactory get() {
-        return requestFactory;
+    public CloseableHttpClient get() {
+        return this.httpClient;
     }
 }

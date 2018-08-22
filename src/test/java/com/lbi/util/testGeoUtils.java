@@ -1,9 +1,8 @@
 package com.lbi.util;
 
-import com.lbi.map.TMap;
-import com.lbi.map.Tile;
-import com.lbi.map.TileSystem;
+import com.lbi.model.Tile;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.util.GeometricShapeFactory;
@@ -40,6 +39,21 @@ public class testGeoUtils {
 
     }
     @Test
+    public void offset(){
+        double x=116;
+        double y=39;
+        double xOffset=0.000001;
+        double yOffset=0.000001;
+        Coordinate pt1=new Coordinate(x,y);
+        Coordinate pt2=new Coordinate(x+xOffset,y);
+        double dis=TMap.getDistance(pt1,pt2);
+        System.out.println("xOffset,offset:"+dis);
+        Coordinate pt3=new Coordinate(x,y+yOffset);
+        dis=TMap.getDistance(pt1,pt3);
+        System.out.println("yOffset,offset:"+dis);
+
+    }
+    @Test
     public void 创建圆(){
         //创建圆形区域
         Coordinate cenPT=new Coordinate(116.43368,39.91194);
@@ -51,6 +65,25 @@ public class testGeoUtils {
     public void 瓦片(){
         Tile tile=new Tile(1659,1256,11);
         Coordinate pt=TileSystem.TileXYToBounds(tile).centre();
+        System.out.println(tile.toString());
+        System.out.println(pt.toString());
+
+    }
+    @Test
+    public void 点()throws Exception{
+        String wkt="Point (114.1 30.1 11.1)";
+        WKTReader reader=new WKTReader();
+        Geometry geom=reader.read(wkt);
+        Point point=(Point)geom;
+        System.out.println(geom.toText());
+        System.out.println(point.getCoordinate().z);
+
+    }
+    @Test
+    public void 计算瓦片坐标(){
+
+        Coordinate pt=new Coordinate(114.40558938,30.49252216);
+        Tile tile=TileSystem.LatLongToTile(pt,17);
         System.out.println(tile.toString());
         System.out.println(pt.toString());
 

@@ -1,4 +1,8 @@
-package com.lbi.map;
+package com.lbi.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * 瓦片类，该类为基础类（单位：块）。
@@ -7,26 +11,31 @@ package com.lbi.map;
  * @version	1.0
  * @author liumk
  */
+@Getter
+@Setter
 public class Tile {
     /**
      * 横向瓦片数
      */
-    private int x;
+    long x;
     /**
      * 纵向瓦片数
      */
-    private int y;
+    long y;
     /**
      * 级别
      */
-    private int z;
+    int z;
+
+    public Tile(){
+    }
 
     /**
      * 根据给定参数构造Tile的新实例
      * @param x 横向瓦片数
      * @param y 纵向瓦片数
      */
-    public Tile(int x,int y){
+    public Tile(long x, long y){
         this.x=x;
         this.y=y;
     }
@@ -36,33 +45,13 @@ public class Tile {
      * @param y 纵向瓦片数
      * @param z 级别
      */
-    public Tile(int x,int y,int z){
+    public Tile(long x, long y, int z){
         this.x=x;
         this.y=y;
         this.z=z;
     }
-    public int getX() {
-        return x;
-    }
-    public void setX(int x) {
-        this.x = x;
-    }
-    public int getY() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
-    public int getZ() {
-        return z;
-    }
-    public void setZ(int z) {
-        this.z = z;
-    }
-    /**
-     * 将Tile对象转换为字符串
-     */
+    @Override
     public String toString(){
-        return x+","+y+","+z;
+        return "Tile("+x+","+y+","+z+")";
     }
 }

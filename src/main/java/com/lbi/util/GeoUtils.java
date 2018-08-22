@@ -1,7 +1,5 @@
 package com.lbi.util;
 
-import com.lbi.map.CoordTransform;
-import com.lbi.map.TMap;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.util.GeometricShapeFactory;
 

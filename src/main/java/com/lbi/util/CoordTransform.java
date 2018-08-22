@@ -1,4 +1,4 @@
-package com.lbi.map;
+package com.lbi.util;
 
 import com.vividsolutions.jts.geom.Coordinate;
 

@@ -1,7 +1,11 @@
-package com.lbi.map;
+package com.lbi.util;
 
+
+import com.lbi.model.Pixel;
+import com.lbi.model.Tile;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
+
 
 /**
  *
@@ -140,7 +144,9 @@ public class TileSystem {
     }
     public static Tile LatLongToTile(Coordinate pt, int levelOfDetail){
         Pixel pixel=LatLongToPixelXY(pt,levelOfDetail);
-        return PixelXYToTileXY(pixel);
+        Tile tile= PixelXYToTileXY(pixel);
+        tile.setZ(levelOfDetail);
+        return tile;
     }
     /**
      *
@@ -174,8 +180,8 @@ public class TileSystem {
      * @return LngLat 经纬度坐标
      */
     public static Coordinate PixelXYToLatLong(Pixel pixel, int levelOfDetail){
-        int pixelX=pixel.getX();
-        int pixelY=pixel.getY();
+        long pixelX=pixel.getX();
+        long pixelY=pixel.getY();
         double mapSize = MapSize(levelOfDetail);
         double x = (Clip(pixelX, 0, mapSize - 1) / mapSize) - 0.5;
         double y = 0.5 - (Clip(pixelY, 0, mapSize - 1) / mapSize);
@@ -192,8 +198,8 @@ public class TileSystem {
      * @return Tile 瓦片坐标
      */
     public static Tile PixelXYToTileXY(Pixel pixel){
-        int tileX = pixel.getX() / 256;
-        int tileY = pixel.getY() / 256;
+        long tileX = pixel.getX() / 256;
+        long tileY = pixel.getY() / 256;
         return new Tile(tileX,tileY);
     }
     /**
@@ -204,8 +210,8 @@ public class TileSystem {
      * @return Pixel 像素坐标
      */
     public static Pixel TileXYToPixelXY(Tile tile){
-        int pixelX= tile.getX() * 256;
-        int pixelY= tile.getY() * 256;
+        long pixelX= tile.getX() * 256;
+        long pixelY= tile.getY() * 256;
         return new Pixel(pixelX,pixelY);
     }
     /**
@@ -216,8 +222,8 @@ public class TileSystem {
      * @return String QuadKey四叉树键值
      */
     public static String TileXYToQuadKey(Tile tile){
-        int tileX=tile.getX();
-        int tileY=tile.getY();
+        long tileX=tile.getX();
+        long tileY=tile.getY();
         int levelOfDetail=tile.getZ();
         StringBuilder quadKey = new StringBuilder();
         for (int i = levelOfDetail; i > 0; i--){
@@ -237,11 +243,11 @@ public class TileSystem {
      * @return Bounds 边框
      */
     public static Envelope TileXYToBounds(Tile tile){
-        Pixel px= TileSystem.TileXYToPixelXY(tile);	//瓦片左上角坐标
-        Pixel minPX=new Pixel(px.getX(),px.getY()+255);
-        Pixel maxPX=new Pixel(px.getX()+255,px.getY());
-        Coordinate sw= TileSystem.PixelXYToLatLong(minPX, tile.getZ());
-        Coordinate ne= TileSystem.PixelXYToLatLong(maxPX, tile.getZ());
+        Pixel px= TileXYToPixelXY(tile);	//瓦片左上角坐标
+        Pixel minPX=new Pixel(px.getX(),px.getY()+256);
+        Pixel maxPX=new Pixel(px.getX()+256,px.getY());
+        Coordinate sw= PixelXYToLatLong(minPX, tile.getZ());
+        Coordinate ne= PixelXYToLatLong(maxPX, tile.getZ());
         return new Envelope(sw,ne);
     }
     /**

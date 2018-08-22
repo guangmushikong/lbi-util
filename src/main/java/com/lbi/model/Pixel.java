@@ -1,4 +1,8 @@
-package com.lbi.map;
+package com.lbi.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * 屏幕像素坐标类，该类为基础类（单位：像素）。
@@ -7,42 +11,33 @@ package com.lbi.map;
  * @version	1.0
  * @author liumk
  */
+@Getter
+@Setter
 public class Pixel {
     /**
      * 横向像素
      */
-    public int x;
+    long x;
     /**
      * 纵向像素
      */
-    public int y;
+    long y;
+
+    public Pixel(){
+
+    }
 
     /**
      * 根据给定参数构造Pixel的新实例
      * @param x 横向像素
      * @param y 纵向像素
      */
-    public Pixel(int x,int y){
+    public Pixel(long x, long y){
         this.x=x;
         this.y=y;
     }
-    public int getX() {
-        return x;
-    }
-    public void setX(int x) {
-        this.x = x;
-    }
-    public int getY() {
-        return y;
-    }
-    public void setY(int y) {
-        this.y = y;
-    }
 
-    /**
-     * 将Pixel对象转换为字符串
-     */
     public String toString(){
-        return x+","+y;
+        return "Pixel("+x+","+y+")";
     }
 }
